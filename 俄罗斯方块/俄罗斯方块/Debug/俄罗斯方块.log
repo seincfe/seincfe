@@ -1,0 +1,12 @@
+﻿  main.c
+e:\编程\seincfe\俄罗斯方块\俄罗斯方块\game.h(12): warning C4005: “VK_UP”: 宏重定义
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\winuser.h(506): note: 参见“VK_UP”的前一个定义
+e:\编程\seincfe\俄罗斯方块\俄罗斯方块\game.h(13): warning C4005: “VK_DOWN”: 宏重定义
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\winuser.h(508): note: 参见“VK_DOWN”的前一个定义
+e:\编程\seincfe\俄罗斯方块\俄罗斯方块\game.h(14): warning C4005: “VK_LEFT”: 宏重定义
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\winuser.h(505): note: 参见“VK_LEFT”的前一个定义
+e:\编程\seincfe\俄罗斯方块\俄罗斯方块\game.h(15): warning C4005: “VK_RIGHT”: 宏重定义
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\winuser.h(507): note: 参见“VK_RIGHT”的前一个定义
+e:\编程\seincfe\俄罗斯方块\俄罗斯方块\main.c(9): warning C4244: “函数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+Debug\game.obj : warning LNK4042: 对象被多次指定；已忽略多余的指定
+  俄罗斯方块.vcxproj -> E:\编程\seincfe\俄罗斯方块\Debug\俄罗斯方块.exe
