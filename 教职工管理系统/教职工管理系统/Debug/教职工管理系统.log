@@ -1,3 +1,6 @@
-﻿  teach.c
+﻿  main.c
+  teach.c
 e:\编程\seincfe\教职工管理系统\教职工管理系统\teach.c(158): warning C4101: “inputs”: 未引用的局部变量
+  正在生成代码...
+  LINK : 没有找到 E:\编程\seincfe\教职工管理系统\Debug\教职工管理系统.exe 或上一个增量链接没有生成它；正在执行完全链接
   教职工管理系统.vcxproj -> E:\编程\seincfe\教职工管理系统\Debug\教职工管理系统.exe
