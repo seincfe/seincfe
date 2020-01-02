@@ -293,8 +293,7 @@ void endGame() {  //结束游戏
 		printf("您的已经结束了游戏。");
 	Pos(24, 13);
 	printf("您的得分是%d\n", score);
-	while (getchar() != 'y')
-		printf("close?[y]");
+	system("pause");
 	exit(0);
 }
 void gameStart() {  //游戏初始化
