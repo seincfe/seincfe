@@ -1,0 +1,9 @@
+﻿  main.cpp
+  Day.cpp
+e:\program\seincfe\日期计算器\日期计算器\day.cpp(23): error C2572: “Date::Date”: 重定义默认参数 : 参数 1
+  e:\program\seincfe\日期计算器\日期计算器\day.h(9): note: 参见“Date::Date”的声明
+e:\program\seincfe\日期计算器\日期计算器\day.cpp(23): error C2572: “Date::Date”: 重定义默认参数 : 参数 2
+  e:\program\seincfe\日期计算器\日期计算器\day.h(9): note: 参见“Date::Date”的声明
+e:\program\seincfe\日期计算器\日期计算器\day.cpp(23): error C2572: “Date::Date”: 重定义默认参数 : 参数 3
+  e:\program\seincfe\日期计算器\日期计算器\day.h(9): note: 参见“Date::Date”的声明
+  正在生成代码...
