@@ -76,24 +76,21 @@ void Int0Init()
 }
 void Int0()	interrupt 0		//外部中断0的中断函数
 {
-	delay(1000);	 //延时消抖
+	delay(1000);	 //消抖
 	if (k3 == 0)
 	{
 		j = 0;
 		if (Yes > No)
 		{
 			led_green = 0;
-			delay(10000);
-			delay(10000); delay(10000); delay(10000); delay(10000); delay(10000); delay(10000);
+			delay(10000);delay(10000); delay(10000); delay(10000); delay(10000); delay(10000); delay(10000);
 			delay(10000); delay(10000); delay(10000); delay(10000);
 			led_green = 1;
 		}
 		if (Yes < No)
 		{
 			led_red = 0;
-			delay(10000);
-			delay(10000);
-			delay(10000); delay(10000); delay(10000); delay(10000); delay(10000); delay(10000);
+			delay(10000);delay(10000); delay(10000); delay(10000); delay(10000); delay(10000); delay(10000);
 			delay(10000); delay(10000); delay(10000); delay(10000);
 			led_red = 1;
 		}
@@ -101,8 +98,8 @@ void Int0()	interrupt 0		//外部中断0的中断函数
 		{
 			led_green = 0;
 			led_red = 0;
-			delay(10000);
-			delay(10000); delay(10000); delay(10000); delay(10000); delay(10000); delay(10000);
+			delay(10000);delay(10000); delay(10000); delay(10000); delay(10000); delay(10000); delay(10000);
+			delay(10000); delay(10000); delay(10000); delay(10000)
 			led_green = 1;
 			led_red = 1;
 		}
@@ -125,7 +122,7 @@ void main()
 		if (yes == 0)
 		{
 			delay(10);
-			while (yes == 0)  //该步骤用于按键消抖
+			while (yes == 0)  //消抖
 			{
 			}
 			Yes++;
