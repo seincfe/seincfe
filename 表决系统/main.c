@@ -1,7 +1,7 @@
 #include "reg52.h"
 typedef unsigned char u8;
 typedef unsigned int u16;
-sbit lcdrs = P2 ^ 6; //P2端口的第二个引脚地址
+sbit lcdrs = P2 ^ 6; //P2端口的第6个引脚地址
 sbit lcden = P2 ^ 7;
 sbit lcdrw = P2 ^ 5;
 
