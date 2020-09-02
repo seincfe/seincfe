@@ -1,0 +1,207 @@
+C51 COMPILER V9.54   MAIN                                                                  08/27/2020 17:51:18 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include "reg52.h"
+   2          typedef unsigned char u8;
+   3          typedef unsigned int u16;
+   4          sbit lcdrs=P2^6;
+   5          sbit lcden=P2^7;
+   6          sbit lcdrw=P2^5;
+   7          
+   8          sbit led_red=P2^0;
+   9          sbit led_green=P2^1;
+  10          
+  11          sbit k3=P3^2;  //定义按键K3,用于结束
+  12          
+  13          sbit yes=P2^2;
+  14          sbit no=P2^3;
+  15          sbit g_up=P2^4;
+  16          
+  17          u8 yes_shi=0,yes_ge=0;
+  18          u8 no_shi=0,no_ge=0;
+  19          u8 g_up_shi=0,g_up_ge=0;
+  20          
+  21          int Yes=0,No=0,G_up=0;
+  22          
+  23          u8  table[]="      Yes**No**G_UP||";
+  24          u8  table1[]="0123456789";
+  25          int i=0;
+  26          int j=1;//控制结束
+  27          void get_wei()
+  28          {
+  29   1        yes_shi=Yes/10;
+  30   1        yes_ge=Yes%10;
+  31   1        no_shi=No/10;
+  32   1        no_ge=No%10;
+  33   1        g_up_shi=G_up/10;
+  34   1        g_up_ge=G_up%10;
+  35   1        
+  36   1      }
+  37          void delay(u16 i)
+  38          {
+  39   1        while(i--);
+  40   1      }
+  41          void write_com(u8 com)
+  42          { 
+  43   1        lcdrs=0;  
+  44   1        lcdrw=0;
+  45   1        P0=com;
+  46   1        delay(5);
+  47   1        lcden=1;
+  48   1        delay(5);
+  49   1        lcden=0;
+  50   1      }
+  51          void write_data(u8 date)
+  52          {
+  53   1        lcdrs=1;
+  54   1        lcdrw=0;
+  55   1        P0=date;
+C51 COMPILER V9.54   MAIN                                                                  08/27/2020 17:51:18 PAGE 2   
+
+  56   1        delay(5);
+  57   1        lcden=1;
+  58   1        delay(5);
+  59   1        lcden=0;
+  60   1      }
+  61          void init()
+  62          {
+  63   1        lcden=0;
+  64   1        write_com(0x38);
+  65   1        write_com(0x0C);
+  66   1        write_com(0x06);
+  67   1        write_com(0x01);
+  68   1      }
+  69          void Int0Init()
+  70          {
+  71   1        //设置INT0
+  72   1        IT0=1;//跳变沿出发方式（下降沿）
+  73   1        EX0=1;//打开INT0的中断允许。  
+  74   1        EA=1;//打开总中断 
+  75   1      }
+  76          void Int0() interrupt 0   //外部中断0的中断函数
+  77          {
+  78   1        delay(1000);   //延时消抖
+  79   1        if(k3==0)
+  80   1        {
+  81   2          j=0;
+  82   2          if (Yes>No)
+  83   2          {
+  84   3            led_green=0;
+  85   3            delay(10000);
+  86   3            delay(10000);delay(10000);delay(10000);delay(10000);delay(10000);delay(10000);
+  87   3            delay(10000);delay(10000);delay(10000);delay(10000);
+  88   3            led_green=1;
+  89   3          }
+  90   2          if (Yes<No)
+  91   2          {
+  92   3            led_red=0;
+  93   3            delay(10000);
+  94   3            delay(10000);
+  95   3            delay(10000);delay(10000);delay(10000);delay(10000);delay(10000);delay(10000);
+  96   3            delay(10000);delay(10000);delay(10000);delay(10000);
+  97   3            led_red=1;
+  98   3          }
+  99   2          if (Yes==No)
+ 100   2          {
+ 101   3            led_green=0;
+ 102   3            led_red=0;
+ 103   3            delay(10000);
+ 104   3            delay(10000);delay(10000);delay(10000);delay(10000);delay(10000);delay(10000);
+ 105   3            led_green=1;
+ 106   3            led_red=1;
+ 107   3          }
+ 108   2        }
+ 109   1      }
+ 110          void main()
+ 111          {   
+ 112   1        int num=0;
+ 113   1        Int0Init();
+ 114   1        init();
+ 115   1        write_com(0x80);
+ 116   1        for( i=0;i<22;i++)
+ 117   1        {
+C51 COMPILER V9.54   MAIN                                                                  08/27/2020 17:51:18 PAGE 3   
+
+ 118   2          write_data(table[i]);
+ 119   2          delay(5);
+ 120   2        } 
+ 121   1          delay(5);
+ 122   1        while(j)
+ 123   1        {
+ 124   2          if (yes==0)
+ 125   2          {
+ 126   3            delay(10);
+ 127   3            while  (yes==0)
+ 128   3            {}
+ 129   3              Yes++;
+ 130   3          }
+ 131   2          if (no==0)
+ 132   2          {
+ 133   3            delay(10);
+ 134   3            while (no==0)
+ 135   3            {}
+ 136   3              No++;
+ 137   3          }
+ 138   2          if (g_up==0)
+ 139   2          {
+ 140   3            delay(10);
+ 141   3            while (g_up==0)
+ 142   3            {}
+ 143   3              G_up++;
+ 144   3          }
+ 145   2          get_wei();
+ 146   2          write_com(0x80+0x40);
+ 147   2          write_data(table1[yes_shi]);
+ 148   2          write_com(0x80+0x41);
+ 149   2          write_data(table1[yes_ge]);
+ 150   2          write_com(0x80+0x46);
+ 151   2          write_data(table1[no_shi]);
+ 152   2          write_com(0x80+0x47);
+ 153   2          write_data(table1[no_ge]);
+ 154   2          write_com(0x80+0x4A);
+ 155   2          write_data(table1[g_up_shi]);
+ 156   2          write_com(0x80+0x4B);
+ 157   2          write_data(table1[g_up_ge]);
+ 158   2        }
+ 159   1      //  while (1)
+ 160   1      //  {
+ 161   1      //      if (Yes>No)
+ 162   1      //    {
+ 163   1      //      led_green=0;
+ 164   1      //    }
+ 165   1      //    if (Yes<No)
+ 166   1      //    {
+ 167   1      //      led_red=0;
+ 168   1      //    }
+ 169   1      //    if (Yes==No)
+ 170   1      //    {
+ 171   1      //      led_green=0;
+ 172   1      //      led_red=0;
+ 173   1      //    }
+ 174   1      //  }
+ 175   1          
+ 176   1      
+ 177   1      
+ 178   1      }
+
+C51 COMPILER V9.54   MAIN                                                                  08/27/2020 17:51:18 PAGE 4   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    591    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     49       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
