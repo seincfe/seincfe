@@ -1,179 +1,127 @@
-#include "reg52.h"
-typedef unsigned char u8;
-typedef unsigned int u16;
-sbit lcdrs = P2 ^ 6; //P2¶Ë¿ÚµÄµÚ¶þ¸öÒý½ÅµØÖ·
-sbit lcden = P2 ^ 7;
-sbit lcdrw = P2 ^ 5;
-
-sbit led_red = P2 ^ 0;//ºìµÆ
-sbit led_green = P2 ^ 1;//ÂÌµÆ
-
-sbit k3 = P3 ^ 2;  //¶¨Òå°´¼üK3,ÓÃÓÚ½áÊø
-
-//Èý¸ö°´¼ü¶ÔÓ¦²»Í¬µÄÇé¿ö
-sbit yes = P2 ^ 2;
-sbit no = P2 ^ 3;
-sbit g_up = P2 ^ 4;
-
-u8 yes_shi = 0, yes_ge = 0;
-u8 no_shi = 0, no_ge = 0;
-u8 g_up_shi = 0, g_up_ge = 0;
-
-int Yes = 0, No = 0, G_up = 0;
-
-u8  table[] = "      Yes**No**G_UP||";
-u8  table1[] = "0123456789";
-int i = 0;
-int j = 1;//¿ØÖÆ½áÊø
-void get_wei()//µÃµ½Ã¿Ò»Î»
-{
-	yes_shi = Yes / 10;
-	yes_ge = Yes % 10;
-	no_shi = No / 10;
-	no_ge = No % 10;
-	g_up_shi = G_up / 10;
-	g_up_ge = G_up % 10;
-
+ï»¿#include<iostream>
+#include<assert.h>
+#define Max_Size 6
+using namespace std;
+int i = 0, j = 0;
+typedef struct {
+	int *base;
+	int size;
+} SqList;
+bool Init(SqList &L) {
+	L.base = (int*)realloc(L.base, sizeof(int)*Max_Size);
+	cout << "è¾“å…¥6ä¸ªæ•°ï¼š";
+	for (i = 0; i < Max_Size; i++) {
+		cin >> j;
+		L.base[i] = j;
+	}
+	L.size = Max_Size;
+	return true;
 }
-void delay(u16 i)//Èí¼þÑÓ³Ùº¯Êý?
-{
-	while (i--);
+void SqList_Print(SqList &L) {
+	j = L.size;
+	for (i = 0; i < j; i++)
+		cout << L.base[i] << " ";
+	cout << endl;
 }
-void write_com(u8 com)//µØÖ·Ð´ÈëlcdÏÔÊ¾ÆÁ
-{
-	lcdrs = 0;
-	lcdrw = 0;
-	P0 = com;
-	delay(5);
-	lcden = 1;
-	delay(5);
-	lcden = 0;
-}
-void write_data(u8 date)//lcdÆÁÄ»ÄÚÈÝÐ´Èëº¯Êý
-{
-	lcdrs = 1;
-	lcdrw = 0;
-	P0 = date;
-	delay(5);
-	lcden = 1;
-	delay(5);
-	lcden = 0;
-}
-void init()//lcdÆÁÄ»³õÊ¼»¯
-{
-	lcden = 0;
-	write_com(0x38);
-	write_com(0x0C);
-	write_com(0x06);
-	write_com(0x01);
-}
-void Int0Init()
-{
-	//ÉèÖÃINT0
-	IT0 = 1;//Ìø±äÑØ³ö·¢·½Ê½£¨ÏÂ½µÑØ£©
-	EX0 = 1;//´ò¿ªINT0µÄÖÐ¶ÏÔÊÐí¡£	
-	EA = 1;//´ò¿ª×ÜÖÐ¶Ï	
-}
-void Int0()	interrupt 0		//Íâ²¿ÖÐ¶Ï0µÄÖÐ¶Ïº¯Êý
-{
-	delay(1000);	 //ÑÓÊ±Ïû¶¶
-	if (k3 == 0)
-	{
-		j = 0;
-		if (Yes > No)
-		{
-			led_green = 0;
-			delay(10000);
-			delay(10000); delay(10000); delay(10000); delay(10000); delay(10000); delay(10000);
-			delay(10000); delay(10000); delay(10000); delay(10000);
-			led_green = 1;
-		}
-		if (Yes < No)
-		{
-			led_red = 0;
-			delay(10000);
-			delay(10000);
-			delay(10000); delay(10000); delay(10000); delay(10000); delay(10000); delay(10000);
-			delay(10000); delay(10000); delay(10000); delay(10000);
-			led_red = 1;
-		}
-		if (Yes == No)
-		{
-			led_green = 0;
-			led_red = 0;
-			delay(10000);
-			delay(10000); delay(10000); delay(10000); delay(10000); delay(10000); delay(10000);
-			led_green = 1;
-			led_red = 1;
+bool Sort(SqList &L) {
+	for (i = 0; i < L.size - 1; i++) {
+		for (j = 0; j < L.size - 1 - i; j++) {
+			if (L.base[j] > L.base[j + 1]) {
+				int temp = L.base[j];
+				L.base[j] = L.base[j + 1];
+				L.base[j + 1] = temp;
+			}
 		}
 	}
+	return true;
 }
-void main()
+bool Reverse(SqList &L) {
+	if (L.size == 0 || L.size == 1) return false;
+	int low = 0, high = L.size - 1;
+	while (low < high) {
+		int  temp = L.base[low];
+		L.base[low] = L.base[high];
+		L.base[high] = temp;
+		low++;
+		high--;
+	}
+	return true;
+}
+bool Del(SqList &L, int value) {
+	for (i = 0, j = 0; i < L.size; i++)
+		if (L.base[i] != value)
+			L.base[j++] = L.base[i];
+	L.size = j;
+	return true;
+}
+bool Merge(SqList &L, SqList L1, SqList L2)
 {
-	int num = 0;
-	Int0Init();
-	init();
-	write_com(0x80);
-	for (i = 0; i < 22; i++)
+	L.size = L1.size + L2.size;
+	L.base = (int*)malloc(sizeof(int)*L.size);
+	assert(L.base != NULL);
+	int L1_size = 0, L2_size = 0, L_size = 0;
+	while (L1_size < L1.size&&L2_size < L2.size)
 	{
-		write_data(table[i]);
-		delay(5);
+		if (L1.base[L1_size] < L2.base[L2_size])
+			L.base[L_size++] = L1.base[L1_size++];
+		else
+			L.base[L_size++] = L2.base[L2_size++];
 	}
-	delay(5);
-	while (j)
-	{
-		if (yes == 0)//¸Ã²½ÖèÓÃÓÚ°´¼üÏû¶¶
-		{
-			delay(10);
-			while (yes == 0)
-			{
-			}
-			Yes++;
-		}
-		if (no == 0)
-		{
-			delay(10);
-			while (no == 0)
-			{
-			}
-			No++;
-		}
-		if (g_up == 0)
-		{
-			delay(10);
-			while (g_up == 0)
-			{
-			}
-			G_up++;
-		}
-		get_wei();
-		write_com(0x80 + 0x40);
-		write_data(table1[yes_shi]);
-		write_com(0x80 + 0x41);
-		write_data(table1[yes_ge]);
-		write_com(0x80 + 0x46);
-		write_data(table1[no_shi]);
-		write_com(0x80 + 0x47);
-		write_data(table1[no_ge]);
-		write_com(0x80 + 0x4A);
-		write_data(table1[g_up_shi]);
-		write_com(0x80 + 0x4B);
-		write_data(table1[g_up_ge]);
-	}
-	//	while (1)
-	//	{
-	//			if (Yes>No)
-	//		{
-	//			led_green=0;
-	//		}
-	//		if (Yes<No)
-	//		{
-	//			led_red=0;
-	//		}
-	//		if (Yes==No)
-	//		{
-	//			led_green=0;
-	//			led_red=0;
-	//		}
-	//	}
+	while (L1_size < L1.size)
+		L.base[L_size++] = L1.base[L1_size++];
+	while (L2_size < L2.size)
+		L.base[L_size++] = L2.base[L2_size++];
+	L.size = L1.size + L2.size;
+	return true;
 }
+bool SerExInsert(SqList &L, int value) {
+	int Le, Ri, Mi;
+	Le = 0, Ri = L.size - 1;
+	while (Le <= Ri) {
+		Mi = (Le + Ri) / 2;
+		if (L.base[Mi] == value) break;
+		else if (L.base[Mi] < value) Le = Mi + 1;
+		else Ri = Mi - 1;
+	}
+	if (L.base[Mi] == value && Mi != L.size - 1) {
+		int t = L.base[Mi];
+		L.base[Mi] = L.base[Mi + 1];
+		L.base[Mi + 1] = t;
+	}
+	else {
+		for (i = L.size - 1; i > Ri; --i)
+			L.base[i + 1] = L.base[i];
+		L.base[Ri + 1] = value;
+		L.size++;
+	}
+	return true;
+}
+int main() {
+	int value = 0;
+	SqList L = { NULL , 0 };
+	Init(L);
+	cout << "åˆå§‹åŒ–ï¼š";
+	SqList_Print(L);
+	Reverse(L);
+	cout << "é€†ç½®åŽï¼š";
+	SqList_Print(L);
+	cout << "åˆ é™¤æ•°ï¼š";
+	cin >> value;
+	Del(L, value);
+	cout << "åˆ é™¤åŽï¼š";
+	SqList_Print(L);
+	cout << "æŽ’åºåŽï¼š";
+	Sort(L);
+	SqList_Print(L);
+	SqList L2 = { NULL , 0 };
+	Init(L2);
+	cout << "åˆå¹¶åŽï¼š";
+	Merge(L, L, L2);
+	SqList_Print(L);
+	cout << "æŸ¥æ‰¾æ•°ï¼š";
+	cin >> value;
+	SerExInsert(L, value);
+	cout << "æŸ¥æ‰¾åŽï¼š";
+	SqList_Print(L);
+	system("pause");
+	return 0;
