@@ -123,6 +123,18 @@ void LcdInit()						  //LCD初始化子程序
 #else
 void LcdInit()						  //LCD初始化子程序
 {
+		write_com(0x80 + 0x40);
+		write_data(table1[yes_shi]);
+		write_com(0x80 + 0x41);
+		write_data(table1[yes_ge]);
+		write_com(0x80 + 0x46);
+		write_data(table1[no_shi]);
+		write_com(0x80 + 0x47);
+		write_data(table1[no_ge]);
+		write_com(0x80 + 0x4A);
+		write_data(table1[g_up_shi]);
+		write_com(0x80 + 0x4B);
+		write_data(table1[g_up_ge]);
 	LcdWriteCom(0x32);	 //将8位总线转为4位总线
 	LcdWriteCom(0x28);	 //在四位线下的初始化
 	LcdWriteCom(0x0c);  //开显示不显示光标
