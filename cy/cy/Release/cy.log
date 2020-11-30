@@ -1,0 +1,9 @@
+﻿  main.c
+e:\编程\seincfe\cy\cy\main.c(26): warning C4047: “!=”:“char *”与“int”的间接级别不同
+Release\Stack.obj : warning LNK4042: 对象被多次指定；已忽略多余的指定
+  正在生成代码
+  2 of 5 functions (40.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  cy.vcxproj -> E:\编程\seincfe\cy\Release\cy.exe
